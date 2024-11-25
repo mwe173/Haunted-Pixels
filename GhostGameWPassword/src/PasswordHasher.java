@@ -1,17 +1,12 @@
-// the awesome and cool hasher
-// hashslinging slasher
+// Group 4 - Ashon, Caleb, Lauryn, Sydney, Betsy, Michelle
+// CS265-01 Final Project
+
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+
 
 public class PasswordHasher {
-
-    // Method to hash a password and return the hex string representation
-    public static String hashPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        byte[] hashBytes = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
-        return bytesToHex(hashBytes);
-    }
 
     // Helper method to convert byte[] to hexadecimal string
     private static String bytesToHex(byte[] bytes) {
@@ -24,5 +19,12 @@ public class PasswordHasher {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    // Method to hash a password and return the hex string representation
+    public static String hashPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte[] hashBytes = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
+        return bytesToHex(hashBytes);
     }
 }
