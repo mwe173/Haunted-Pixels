@@ -25,6 +25,8 @@ public class ghostApproach extends JPanel implements ActionListener, KeyListener
     int ghostWidth = 34;
     int ghostHeight = 24;
 
+    private JButton restartButton;
+
     class Ghost {
         int x = ghostX;
         int y = ghostY;
@@ -88,7 +90,6 @@ public class ghostApproach extends JPanel implements ActionListener, KeyListener
         passwordLabel = new JLabel("Enter Password:");
         passwordLabel.setForeground(Color.WHITE);
         passwordLabel.setBounds(120, 400, 120, 30);  // Position label
-
         passwordField = new JPasswordField(15);
         passwordField.setBounds(120, 430, 120, 30);  // Position password field
 
@@ -149,6 +150,22 @@ public class ghostApproach extends JPanel implements ActionListener, KeyListener
 
         ghost = new Ghost(ghostImg);
         pipes = new ArrayList<Pipe>();
+        
+        // Create a JButton and position it in the center
+        restartButton = new JButton("Restart Game");
+        restartButton.setBounds(100, 360, 160, 40);
+        restartButton.setFont(new Font("Arial", Font.PLAIN, 14));
+        restartButton.setVisible(false);
+
+        // Add the action listener to the button
+        restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                restartGame();
+            }
+        });
+
+        add(restartButton);
     }
 
     // removes password area after password is entered
@@ -255,6 +272,7 @@ public class ghostApproach extends JPanel implements ActionListener, KeyListener
         move();
         repaint();
         if (gameOver){
+            restartButton.setVisible(true);
             placePipesTimer.stop();
             gameLoop.stop();
         }
@@ -272,18 +290,22 @@ public class ghostApproach extends JPanel implements ActionListener, KeyListener
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             velocityY = -9; // Make the ghost "jump"
-            if(gameOver){
-                //restart
-                ghost.y = ghostY;
-                velocityY = 0;
-                pipes.clear();
-                score = 0;
-                gameOver = false;
-                gameLoop.start();
-                placePipesTimer.start();
-            }
         }
     }
+
+    // This whole section restarts everything
+    private void restartGame() {
+        ghost.y = ghostY;
+        velocityY = 0;
+        pipes.clear(); 
+        score = 0;
+        gameOver = false;
+        restartButton.setVisible(false);
+    
+        gameLoop.start();
+        placePipesTimer.start();
+    }
+    
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -302,5 +324,7 @@ public class ghostApproach extends JPanel implements ActionListener, KeyListener
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        
     }
+    
 }
